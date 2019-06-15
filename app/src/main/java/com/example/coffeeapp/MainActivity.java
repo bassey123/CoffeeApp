@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -28,8 +29,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        requestWindowFeature(Window.FEATURE_NO_TITLE);
-//        getSupportActionBar().hide();
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getSupportActionBar().hide();
 //        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_main);
 
@@ -51,7 +52,11 @@ public class MainActivity extends AppCompatActivity {
         plus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                    quantity = quantity + 1;
+                if(quantity == 100) {
+                    Toast.makeText(MainActivity.this, "You cannot have more than 100 Coffees", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                quantity = quantity + 1;
 
                 displayPrice();
                 display(quantity);
@@ -62,10 +67,11 @@ public class MainActivity extends AppCompatActivity {
         minus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (quantity != 0) {
-                    quantity = quantity - 1;
-                }
-
+                if (quantity == 1) {
+                    Toast.makeText(MainActivity.this, "You cannot have less than 1 Coffee", Toast.LENGTH_SHORT).show();
+                    return;
+                } 
+                quantity = quantity - 1;
                 displayPrice();
                 display(quantity);
 
@@ -137,11 +143,21 @@ public class MainActivity extends AppCompatActivity {
         String nem = name.getText().toString();
 
 
-        Intent email = new Intent(Intent.ACTION_SEND);
+//        Intent email = new Intent(Intent.ACTION_SEND);
+//        email.putExtra(Intent.EXTRA_EMAIL, new String[]{"bassey@gmail.com"});
+//        email.putExtra(Intent.EXTRA_SUBJECT, "Just Java Coffee Order for " + nem);
+//        email.putExtra(Intent.EXTRA_TEXT, "Name: " + nem + "\n" + result.toString() + "\n" + "Quantity: " + quantity + "\n" + "Price: " + p + "\n" + message);
+//        email.setType("message/rfc822");
+//        startActivity(Intent.createChooser(email, "Choose your Email: "));
+
+        Intent email = new Intent(Intent.ACTION_SENDTO);
+        email.setData(Uri.parse("mailto:")); //only email apps should handle this
         email.putExtra(Intent.EXTRA_EMAIL, new String[]{"bassey@gmail.com"});
         email.putExtra(Intent.EXTRA_SUBJECT, "Just Java Coffee Order for " + nem);
         email.putExtra(Intent.EXTRA_TEXT, "Name: " + nem + "\n" + result.toString() + "\n" + "Quantity: " + quantity + "\n" + "Price: " + p + "\n" + message);
-        email.setType("message/rfc822");
-        startActivity(Intent.createChooser(email, "Choose your Email: "));
+//        Check to see if there is an email app to handle the intent
+        if (email.resolveActivity(getPackageManager()) != null) {
+            startActivity(email);
+        }
     }
 }
