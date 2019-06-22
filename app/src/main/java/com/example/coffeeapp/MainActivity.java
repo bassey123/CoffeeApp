@@ -143,12 +143,12 @@ public class MainActivity extends AppCompatActivity {
         String nem = name.getText().toString();
 
 
-//        Intent email = new Intent(Intent.ACTION_SEND);
-//        email.putExtra(Intent.EXTRA_EMAIL, new String[]{"bassey@gmail.com"});
-//        email.putExtra(Intent.EXTRA_SUBJECT, "Just Java Coffee Order for " + nem);
-//        email.putExtra(Intent.EXTRA_TEXT, "Name: " + nem + "\n" + result.toString() + "\n" + "Quantity: " + quantity + "\n" + "Price: " + p + "\n" + message);
-//        email.setType("message/rfc822");
-//        startActivity(Intent.createChooser(email, "Choose your Email: "));
+        /*Intent email = new Intent(Intent.ACTION_SEND);
+        email.putExtra(Intent.EXTRA_EMAIL, new String[]{"bassey@gmail.com"});
+        email.putExtra(Intent.EXTRA_SUBJECT, "Just Java Coffee Order for " + nem);
+        email.putExtra(Intent.EXTRA_TEXT, "Name: " + nem + "\n" + result.toString() + "\n" + "Quantity: " + quantity + "\n" + "Price: " + p + "\n" + message);
+        email.setType("message/rfc822");
+        startActivity(Intent.createChooser(email, "Choose your Email: "));*/
 
         Intent email = new Intent(Intent.ACTION_SENDTO);
         email.setData(Uri.parse("mailto:")); //only email apps should handle this
